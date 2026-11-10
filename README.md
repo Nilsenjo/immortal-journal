@@ -40,7 +40,7 @@ Keep a dedicated domain on Shopify before moving the main domain to Vercel:
 See DEPLOYMENT.md for the ordered launch steps. Do not move the main domain before Shopify's subdomain is connected, primary, and working. Changing Shopify's primary domain also changes newly returned checkout URLs. Do not change returned checkout URLs manually.
 
 ## Newsletter
-Uses Shopify's documented customer newsletter POST to SHOPIFY_STOREFRONT_URL/contact, with email marketing consent and newsletter/source tags. Submission navigates to Shopify, which handles challenge and confirmation. An end-to-end subscriber save remains to be checked by a real browser and verified in Shopify Customers. This is a launch acceptance item, not a verified subscriber API.
+The Subscribe button opens the Shopify-hosted newsletter form at SHOPIFY_STOREFRONT_URL/#contact_form. Email entry and CAPTCHA run on Shopify's own domain. The earlier cross-origin POST from Vercel failed with “Missing CAPTCHA token” and has been removed. Subscription persistence still needs a real consenting signup check. Keep the hosted theme's contact_form newsletter ID intact or update the link if that form changes.
 
 ## Source control and security
 `.gitignore` excludes environment files, generated output, dependencies, and Vercel credentials. For a new GitHub repository, upload public/, scripts/, .github/, package.json, package-lock.json, vercel.json, .gitignore, .env.example and the Markdown documentation. Omit legacy .openai/ metadata, .git/, generated dist/ and environment files. GitHub Actions runs build checks only. No deployment action is included.

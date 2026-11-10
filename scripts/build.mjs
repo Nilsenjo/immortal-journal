@@ -12,6 +12,6 @@ if(url.protocol!=='https:'||url.username||url.password||url.pathname!=='/'||url.
 execFileSync(process.execPath,['--check','public/app.js'],{stdio:'inherit'});
 await rm('dist',{recursive:true,force:true});await mkdir('dist');await cp('public','dist',{recursive:true});
 await writeFile('dist/shopify-config.js',`// Public configuration only. No API token required.\nwindow.SHOPIFY_CONFIG = ${JSON.stringify({domain,productHandle,apiVersion,storefrontUrl:url.origin})};\n`);
-const html=(await readFile('public/index.html','utf8')).replace('https://immortaljournal.com/contact#contact_form',url.origin+'/contact#contact_form').replace('Continue on immortaljournal.com to complete your signup.',`Continue on ${url.hostname} to complete your signup.`);
+const html=(await readFile('public/index.html','utf8')).replace('https://immortaljournal.com/#contact_form',url.origin+'/#contact_form').replace('Enter your email on immortaljournal.com to subscribe.',`Enter your email on ${url.hostname} to subscribe.`);
 await writeFile('dist/index.html',html);
 console.log('Build successful: dist/ (static storefront, no runtime secrets).');
