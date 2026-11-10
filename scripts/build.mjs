@@ -1,0 +1,17 @@
+import {cp,mkdir,readFile,writeFile,rm} from 'node:fs/promises';
+import {execFileSync} from 'node:child_process';
+const domain=process.env.SHOPIFY_STORE_DOMAIN||'gsyqjp-zz.myshopify.com';
+const productHandle=process.env.SHOPIFY_PRODUCT_HANDLE||'immortal-journal';
+const apiVersion=process.env.SHOPIFY_API_VERSION||'2026-07';
+const storefront=process.env.SHOPIFY_STOREFRONT_URL||'https://immortaljournal.com';
+if(!/^[a-z0-9][a-z0-9-]*\.myshopify\.com$/i.test(domain))throw Error('SHOPIFY_STORE_DOMAIN must be a myshopify.com hostname.');
+if(!/^[a-z0-9-]+$/.test(productHandle))throw Error('Invalid SHOPIFY_PRODUCT_HANDLE.');
+if(!/^\d{4}-(01|04|07|10)$/.test(apiVersion))throw Error('Invalid SHOPIFY_API_VERSION.');
+const url=new URL(storefront);
+if(url.protocol!=='https:'||url.username||url.password||url.pathname!=='/'||url.search||url.hash)throw Error('SHOPIFY_STOREFRONT_URL must be an HTTPS origin, with no path or credentials.');
+execFileSync(process.execPath,['--check','public/app.js'],{stdio:'inherit'});
+await rm('dist',{recursive:true,force:true});await mkdir('dist');await cp('public','dist',{recursive:true});
+await writeFile('dist/shopify-config.js',`// Public configuration only. No API token required.\nwindow.SHOPIFY_CONFIG = ${JSON.stringify({domain,productHandle,apiVersion,storefrontUrl:url.origin})};\n`);
+const html=(await readFile('public/index.html','utf8')).replace('https://immortaljournal.com/contact#contact_form',url.origin+'/contact#contact_form').replace('Continue on immortaljournal.com to complete your signup.',`Continue on ${url.hostname} to complete your signup.`);
+await writeFile('dist/index.html',html);
+console.log('Build successful: dist/ (static storefront, no runtime secrets).');
