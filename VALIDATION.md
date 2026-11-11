@@ -31,3 +31,15 @@ Nothing was pushed, deployed, published, or changed in DNS during preparation. E
 
 ## Browser environment note
 The initial browser failed external requests because Chromium lacked trust for the managed environment's proxy CA. Tests were rerun successfully with the configured CA trusted in an isolated workspace browser profile. TLS verification was not disabled. That certificate/profile is not part of the website or deployment package.
+
+## Homepage messaging update — awaiting owner approval
+- Hero retains “What’s your story?” and leads with “The life you want to live won’t happen on its own.”
+- Product section now follows the hero. The longer journal-purpose explanation sits below it, outside the hero.
+- Added Commit / Pursue / Preserve pillars, intentional-living mission copy, and explicit future-service privacy and availability disclosures.
+- Live Shopify product description moved into Product details; the curated purpose paragraph remains visible beside purchase controls.
+- No changes to cart JavaScript, Shopify configuration, build logic, price, products, or dependencies.
+- npm run build (with Shopify storefront subdomain) and npm run check passed. This project has no lint script.
+- Browser-tested 1440×1000, 390×844, 320×740. Hero purchase CTA visible in all initial viewports; no overflow or page errors. Live product loads, add/remove cart work, checkout opens on shop.immortaljournal.com. Test carts emptied; no order placed.
+- Navigation fragment targets checked for existence and unique IDs.
+- Shopify description contains no dimensions or page count; none invented.
+- No GitHub push or production deployment performed. Real newsletter signup persistence remains the previously deferred acceptance check.
